@@ -4,21 +4,24 @@
 
 %%
 
-"FACA"           { return FACA; }
-"SER"            { return SER; }
-"MOSTRE"         { return MOSTRE; }
+"FACA"           { printf("Processing token: FACA\n"); return FACA; }
+"SER"            { printf("Processing token: SER\n"); return SER; }
+"MOSTRE"         { printf("Processing token: MOSTRE\n"); return MOSTRE; }
 "SOME"           { return SOME; }
 "COM"            { return COM; }
 "REPITA"         { return REPITA; }
 "VEZES"          { return VEZES; }
-"FIM"            { return FIM; }
+"FIM"            { return FIMLOOP; }
 "MULTIPLIQUE"    { return MULTIPLIQUE; }
 "POR"            { return POR; }
 "SE"             { return SE; }
 "ENTAO"          { return ENTAO; }
 "SENAO"          { return SENAO; }
-[0-9]+           { yylval = atoi(yytext); return NUM; }
-[a-zA-Z][a-zA-Z0-9]* { yylval = strdup(yytext); return IDENTIFIER; }
+[0-9]+           { printf("Processing token: NUM\n"); yylval.num = atoi(yytext); return NUM; }
+[a-zA-Z][a-zA-Z0-9]* {  printf("Processing token: IDENTIFIER\n"); 
+                        yylval.str = (char*) malloc(strlen(yytext) + 1); // +1 para o caractere nulo
+strcpy(yylval.str, yytext); 
+                        return IDENTIFIER; }
 [ \t\n]+         { /* ignore whitespace */ }
 .                { return yytext[0]; }
 %% 

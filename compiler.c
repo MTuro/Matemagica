@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "y.tab.h"
 
 extern FILE *yyin;
@@ -23,7 +24,9 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    printf("Starting parsing process...\n");
     yyparse();
+    printf("Parsing process completed.\n");
 
     fclose(yyin);
     fclose(outputFile);

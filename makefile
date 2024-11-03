@@ -1,6 +1,6 @@
 # Target for the final executable
 matemagica: lex.yy.c y.tab.c compiler.c
-	gcc -o matemagica lex.yy.c y.tab.c compiler.c -ll
+	gcc -g -o matemagica lex.yy.c y.tab.c compiler.c -ll
 
 # Generate parser files with yacc
 y.tab.c: matemagica.y

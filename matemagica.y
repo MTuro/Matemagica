@@ -5,21 +5,34 @@
 
 void yyerror(const char *s);
 int yylex(void);
-FILE *outputFile;
+extern FILE *outputFile;
 %}
 
-%token FACA SER MOSTRE SOME COM REPITA VEZES FIM MULTIPLIQUE POR SE ENTAO SENAO IDENTIFIER NUM
+/* Define os tipos de valores semânticos */
+%union {
+    int num;       /* Para números */
+    char *str;     /* Para strings e comandos */
+}
 
+/* Declaração dos tokens com tipos */
+%token <num> NUM
+%token <str> IDENTIFIER
+
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIMLOOP MULTIPLIQUE POR SE ENTAO SENAO FIMPROG
+
+/* Declaração dos não-terminais com tipos */
+%type <str> cmds cmd atribuicao impressao operacao repeticao condicional
 
 %%
 
 programa:
-    cmds { fprintf(outputFile, "%s\n", $1); }
+    cmds { fprintf(outputFile, "%s\n", $1); fflush(outputFile);}
     ;
 
 cmds:
-    cmd cmds { fprintf(outputFile, "%s\n%s\n", $1, $2); }
-    | cmd { fprintf(outputFile, "%s\n", $1); }
+    cmd cmds { fflush(outputFile);}
+        
+    | cmd { fflush(outputFile);}
     ;
 
 cmd:
@@ -31,11 +44,17 @@ cmd:
     ;
 
 atribuicao:
-    FACA IDENTIFIER SER NUM '.' { fprintf(outputFile, "%s = %d\n", $2, $4); }
+    FACA IDENTIFIER SER NUM '.' { 
+        printf("Processing command: FACA SER\n");
+        printf("%s = %d\n", $2, $4);
+        fprintf(outputFile, "%s = %d\n", $2, $4); fflush(outputFile);}
     ;
 
 impressao:
-    MOSTRE IDENTIFIER '.' { fprintf(outputFile, "print(%s)\n", $2); }
+    MOSTRE IDENTIFIER '.' { 
+        printf("Processing command: MOSTRE\n");
+        printf("IDENTIFIER: %s\n", $2); fflush(stdout);
+        fprintf(outputFile, "print(%s)\n", $2); fflush(outputFile);}
     ;
 
 operacao:
@@ -45,23 +64,28 @@ operacao:
     ;
 
 repeticao:
-    REPITA NUM VEZES ':' cmds FIM { fprintf(outputFile, "for i = 1, %d do\n%s\nend\n", $2, $5); }
+    REPITA NUM VEZES ':' cmds FIMLOOP { fprintf(outputFile, "for i = 1, %d do\n%s\nend\n", $2, $5); }
     ;
 
 condicional:
-    SE NUM ENTAO cmds FIM { 
+    SE NUM ENTAO cmds FIMLOOP { 
         if ($2 != 0)
             fprintf(outputFile, "if true then\n%s\nend\n", $4);
         else
             fprintf(outputFile, "if false then\n%s\nend\n", $4);
     }
-    | SE NUM ENTAO cmds SENAO cmds FIM { 
+    | SE NUM ENTAO cmds SENAO cmds FIMLOOP { 
         fprintf(outputFile, "if %d ~= 0 then\n%s\nelse\n%s\nend\n", $2, $4, $6); 
     }
     ;
 
 %%
 
+
+
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
+    if (yylval.str != NULL) {
+        free(yylval.str);
+    }
 }
