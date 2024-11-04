@@ -795,7 +795,7 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 14 "lexer.l"
-{ return FIMLOOP; }
+{ return FIM; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

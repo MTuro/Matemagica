@@ -11,7 +11,7 @@
 "COM"            { return COM; }
 "REPITA"         { return REPITA; }
 "VEZES"          { return VEZES; }
-"FIM"            { return FIMLOOP; }
+"FIM"            { return FIM; }
 "MULTIPLIQUE"    { return MULTIPLIQUE; }
 "POR"            { return POR; }
 "SE"             { return SE; }

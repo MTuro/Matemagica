@@ -63,13 +63,12 @@ extern int yydebug;
     COM = 264,                     /* COM  */
     REPITA = 265,                  /* REPITA  */
     VEZES = 266,                   /* VEZES  */
-    FIMLOOP = 267,                 /* FIMLOOP  */
+    FIM = 267,                     /* FIM  */
     MULTIPLIQUE = 268,             /* MULTIPLIQUE  */
     POR = 269,                     /* POR  */
     SE = 270,                      /* SE  */
     ENTAO = 271,                   /* ENTAO  */
-    SENAO = 272,                   /* SENAO  */
-    FIMPROG = 273                  /* FIMPROG  */
+    SENAO = 272                    /* SENAO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -87,13 +86,12 @@ extern int yydebug;
 #define COM 264
 #define REPITA 265
 #define VEZES 266
-#define FIMLOOP 267
+#define FIM 267
 #define MULTIPLIQUE 268
 #define POR 269
 #define SE 270
 #define ENTAO 271
 #define SENAO 272
-#define FIMPROG 273
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -104,7 +102,7 @@ union YYSTYPE
     int num;       /* Para números */
     char *str;     /* Para strings e comandos */
 
-#line 108 "y.tab.h"
+#line 106 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

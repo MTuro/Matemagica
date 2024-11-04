@@ -1,2 +1,5 @@
-FACA x SER 10.
-MOSTRE x.
+FACA resultado SER 1.
+REPITA 3 VEZES :
+MULTIPLIQUE resultado POR 2.
+FIM
+MOSTRE resultado .
