@@ -1,5 +1,6 @@
-FACA resultado SER 1.
-REPITA 3 VEZES :
-MULTIPLIQUE resultado POR 2.
+FACA num SER 0.
+SE num ENTAO
+MOSTRE num .
+SENAO
+MOSTRE SOME 10 COM 1.
 FIM
-MOSTRE resultado .

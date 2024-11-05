@@ -543,18 +543,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  22
+#define YYFINAL  24
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   46
+#define YYLAST   54
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  20
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  19
+#define YYNRULES  22
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  49
+#define YYNSTATES  58
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   272
@@ -606,7 +606,8 @@ static const yytype_int8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    29,    29,    34,    47,    59,    60,    61,    62,    63,
-      67,    80,    92,   104,   114,   124,   134,   148,   172,   178
+      67,    80,    92,   101,   115,   125,   135,   145,   159,   183,
+     195,   207,   220
 };
 #endif
 
@@ -636,7 +637,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-11)
+#define YYPACT_NINF (-10)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -650,11 +651,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,     1,     9,     4,     7,    14,    15,    20,   -11,    -4,
-     -11,   -11,   -11,   -11,   -11,    16,     5,     6,    17,    18,
-      19,    12,   -11,   -11,    24,   -11,   -11,    11,    21,    13,
-      -4,    23,    25,    26,    -4,    27,    28,   -10,   -11,   -11,
-     -11,    22,   -11,   -11,   -11,    -4,   -11,    30,   -11
+      -4,    -2,     4,    12,    20,    22,    11,    27,   -10,    -4,
+     -10,   -10,   -10,   -10,   -10,    24,    10,    13,    14,    25,
+      26,    19,    23,    28,   -10,   -10,    32,   -10,   -10,   -10,
+      16,    17,    18,    -4,    -4,    29,    30,    31,    -4,    33,
+      34,    -7,     1,   -10,   -10,   -10,    38,   -10,   -10,   -10,
+      -4,   -10,    -4,   -10,    41,    42,   -10,   -10
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -664,15 +666,16 @@ static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     2,     4,
        5,     6,     7,     8,     9,     0,     0,     0,     0,     0,
-       0,     0,     1,     3,     0,    12,    11,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    10,    14,
-      13,     0,    16,    15,    18,     0,    17,     0,    19
+       0,     0,     0,     0,     1,     3,     0,    12,    11,    13,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,    10,    15,    14,     0,    17,    16,    20,
+       0,    19,     0,    18,     0,     0,    22,    21
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -11,   -11,    -9,   -11,   -11,   -11,   -11,   -11,   -11
+     -10,   -10,    -9,   -10,   -10,   -10,    36,   -10,   -10
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -686,20 +689,22 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      23,     1,    44,     2,     3,    15,     4,    45,    18,     5,
-      19,     6,    16,    17,    32,    33,    35,    36,    20,    21,
-      22,    37,    24,    25,    26,    41,    27,    31,    30,    28,
-       0,     0,     0,    29,    46,     0,    47,     0,     0,     0,
-      34,    38,    48,    39,    40,    42,    43
+      25,     1,    15,     2,     3,    49,     4,    16,    17,     5,
+      50,     6,     3,    51,    22,    23,    19,     5,    52,    36,
+      37,    39,    40,    20,    41,    42,    21,    24,    27,    46,
+      26,    28,    29,    32,    30,    35,    38,    31,    18,    33,
+       0,    54,     0,    55,    34,     0,     0,    43,    44,    45,
+      53,    47,    48,    56,    57
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,     5,    12,     7,     8,     4,    10,    17,     4,    13,
-       3,    15,     3,     4,     3,     4,     3,     4,     4,     4,
-       0,    30,     6,    18,    18,    34,     9,     3,    16,    11,
-      -1,    -1,    -1,    14,    12,    -1,    45,    -1,    -1,    -1,
-      19,    18,    12,    18,    18,    18,    18
+       9,     5,     4,     7,     8,    12,    10,     3,     4,    13,
+      17,    15,     8,    12,     3,     4,     4,    13,    17,     3,
+       4,     3,     4,     3,    33,    34,     4,     0,    18,    38,
+       6,    18,    18,    14,     9,     3,    19,    11,     2,    16,
+      -1,    50,    -1,    52,    16,    -1,    -1,    18,    18,    18,
+      12,    18,    18,    12,    12
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -707,24 +712,27 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     5,     7,     8,    10,    13,    15,    21,    22,    23,
-      24,    25,    26,    27,    28,     4,     3,     4,     4,     3,
-       4,     4,     0,    22,     6,    18,    18,     9,    11,    14,
-      16,     3,     3,     4,    19,     3,     4,    22,    18,    18,
-      18,    22,    18,    18,    12,    17,    12,    22,    12
+      24,    25,    26,    27,    28,     4,     3,     4,    26,     4,
+       3,     4,     3,     4,     0,    22,     6,    18,    18,    18,
+       9,    11,    14,    16,    16,     3,     3,     4,    19,     3,
+       4,    22,    22,    18,    18,    18,    22,    18,    18,    12,
+      17,    12,    17,    12,    22,    22,    12,    12
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    20,    21,    22,    22,    23,    23,    23,    23,    23,
-      24,    25,    25,    26,    26,    26,    26,    27,    28,    28
+      24,    25,    25,    25,    26,    26,    26,    26,    27,    28,
+      28,    28,    28
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     1,     1,     1,     1,     1,     1,
-       5,     3,     3,     5,     5,     5,     5,     6,     5,     7
+       5,     3,     3,     3,     5,     5,     5,     5,     6,     5,
+       5,     7,     7
 };
 
 
@@ -1191,7 +1199,7 @@ yyreduce:
 #line 29 "matemagica.y"
          {  fprintf(outputFile, "%s\n", (yyvsp[0].str));
             fflush(outputFile); }
-#line 1195 "y.tab.c"
+#line 1203 "y.tab.c"
     break;
 
   case 3: /* cmds: cmd cmds  */
@@ -1209,7 +1217,7 @@ yyreduce:
         (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1213 "y.tab.c"
+#line 1221 "y.tab.c"
     break;
 
   case 4: /* cmds: cmd  */
@@ -1222,7 +1230,7 @@ yyreduce:
         }
         fflush(outputFile);
     }
-#line 1226 "y.tab.c"
+#line 1234 "y.tab.c"
     break;
 
   case 10: /* atribuicao: FACA IDENTIFIER SER NUM '.'  */
@@ -1237,7 +1245,7 @@ yyreduce:
         sprintf(result, "%s = %d", (yyvsp[-3].str), (yyvsp[-1].num)); 
         (yyval.str) = result;
         fflush(outputFile);}
-#line 1241 "y.tab.c"
+#line 1249 "y.tab.c"
     break;
 
   case 11: /* impressao: MOSTRE IDENTIFIER '.'  */
@@ -1253,7 +1261,7 @@ yyreduce:
         (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1257 "y.tab.c"
+#line 1265 "y.tab.c"
     break;
 
   case 12: /* impressao: MOSTRE NUM '.'  */
@@ -1267,11 +1275,27 @@ yyreduce:
         sprintf(result, "print(%d)", (yyvsp[-1].num));
         (yyval.str) = result;
     }
-#line 1271 "y.tab.c"
+#line 1279 "y.tab.c"
     break;
 
-  case 13: /* operacao: SOME IDENTIFIER COM IDENTIFIER '.'  */
-#line 104 "matemagica.y"
+  case 13: /* impressao: MOSTRE operacao '.'  */
+#line 101 "matemagica.y"
+                          { 
+        char* result = malloc(strlen((yyvsp[-1].str)) + 10);
+        if (result == NULL){
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+
+        sprintf(result, "print(%s)", (yyvsp[-1].str));
+        (yyval.str) = result;
+        fflush(outputFile);
+    }
+#line 1295 "y.tab.c"
+    break;
+
+  case 14: /* operacao: SOME IDENTIFIER COM IDENTIFIER '.'  */
+#line 115 "matemagica.y"
                                        { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + strlen((yyvsp[-1].str)) + 10);
         if (result == NULL) {
@@ -1282,11 +1306,11 @@ yyreduce:
         (yyval.str) = result; // Retorna a string para ser usada em cmds
         fflush(outputFile);
     }
-#line 1286 "y.tab.c"
+#line 1310 "y.tab.c"
     break;
 
-  case 14: /* operacao: SOME IDENTIFIER COM NUM '.'  */
-#line 114 "matemagica.y"
+  case 15: /* operacao: SOME IDENTIFIER COM NUM '.'  */
+#line 125 "matemagica.y"
                                   { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + 20); // Espaço suficiente para o número
         if (result == NULL) {
@@ -1297,11 +1321,11 @@ yyreduce:
         (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1301 "y.tab.c"
+#line 1325 "y.tab.c"
     break;
 
-  case 15: /* operacao: MULTIPLIQUE IDENTIFIER POR IDENTIFIER '.'  */
-#line 124 "matemagica.y"
+  case 16: /* operacao: MULTIPLIQUE IDENTIFIER POR IDENTIFIER '.'  */
+#line 135 "matemagica.y"
                                                 { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + strlen((yyvsp[-1].str)) + 10);
         if (result == NULL) {
@@ -1312,11 +1336,11 @@ yyreduce:
         (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1316 "y.tab.c"
+#line 1340 "y.tab.c"
     break;
 
-  case 16: /* operacao: MULTIPLIQUE IDENTIFIER POR NUM '.'  */
-#line 134 "matemagica.y"
+  case 17: /* operacao: MULTIPLIQUE IDENTIFIER POR NUM '.'  */
+#line 145 "matemagica.y"
                                          { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + 20);
         if (result == NULL) {
@@ -1327,11 +1351,11 @@ yyreduce:
         (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1331 "y.tab.c"
+#line 1355 "y.tab.c"
     break;
 
-  case 17: /* repeticao: REPITA NUM VEZES ':' cmds FIM  */
-#line 148 "matemagica.y"
+  case 18: /* repeticao: REPITA NUM VEZES ':' cmds FIM  */
+#line 159 "matemagica.y"
                                   { 
         printf("COMANDO REPT: %s\n", (yyvsp[-1].str)); fflush(stdout);
         if ((yyvsp[-1].str) != NULL) {
@@ -1352,31 +1376,81 @@ yyreduce:
 
         fflush(outputFile);
     }
-#line 1356 "y.tab.c"
+#line 1380 "y.tab.c"
     break;
 
-  case 18: /* condicional: SE IDENTIFIER ENTAO cmds FIM  */
-#line 172 "matemagica.y"
+  case 19: /* condicional: SE IDENTIFIER ENTAO cmds FIM  */
+#line 183 "matemagica.y"
                                  { 
         printf("IDENTIFIER = %s\n", (yyvsp[-3].str)); fflush(stdout);
         printf("Command received = %s\n", (yyvsp[-1].str)); fflush(stdout);
-        fprintf(outputFile, "if %s then\n%s\nend\n", (yyvsp[-3].str), (yyvsp[-1].str));
+        char* result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 15); fflush(stdout);
+        if (result == NULL){
+           yyerror("Memory allocation failed");
+           YYABORT;
+        }
+        sprintf(result, "if %s then\n%s\nend\n", (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1367 "y.tab.c"
+#line 1397 "y.tab.c"
     break;
 
-  case 19: /* condicional: SE IDENTIFIER ENTAO cmds SENAO cmds FIM  */
-#line 178 "matemagica.y"
+  case 20: /* condicional: SE NUM ENTAO cmds FIM  */
+#line 195 "matemagica.y"
+                           {
+        printf("NUM = %d\n", (yyvsp[-3].num)); fflush(stdout);
+        printf("Command received = %s\n", (yyvsp[-1].str)); fflush(stdout);
+        char* result = malloc(strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %d ~= 0 then\n%s\nend", (yyvsp[-3].num), (yyvsp[-1].str));
+        (yyval.str) = result;
+        fflush(outputFile);
+    }
+#line 1414 "y.tab.c"
+    break;
+
+  case 21: /* condicional: SE IDENTIFIER ENTAO cmds SENAO cmds FIM  */
+#line 207 "matemagica.y"
                                               { 
-        fprintf(outputFile, "if %s ~= 0 then\n%s\nelse\n%s\nend\n", (yyvsp[-5].str), (yyvsp[-3].str), (yyvsp[-1].str));
+        printf("IDENTIFIER = %s\n", (yyvsp[-5].str)); fflush(stdout);
+        printf("Then command = %s\n", (yyvsp[-3].str)); fflush(stdout);
+        printf("Else command = %s\n", (yyvsp[-1].str)); fflush(stdout);
+        char* result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s ~= 0 then\n%s\nelse\n%s\nend", (yyvsp[-5].str), (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
         fflush(outputFile);
     }
-#line 1376 "y.tab.c"
+#line 1432 "y.tab.c"
+    break;
+
+  case 22: /* condicional: SE NUM ENTAO cmds SENAO cmds FIM  */
+#line 220 "matemagica.y"
+                                      {
+        printf("NUM = %d\n", (yyvsp[-5].num)); fflush(stdout);
+        printf("Then command = %s\n", (yyvsp[-3].str)); fflush(stdout);
+        printf("Else command = %s\n", (yyvsp[-1].str)); fflush(stdout);
+        char* result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %d ~= 0 then\n%s\nelse\n%s\nend", (yyvsp[-5].num), (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
+        fflush(outputFile);
+    }
+#line 1450 "y.tab.c"
     break;
 
 
-#line 1380 "y.tab.c"
+#line 1454 "y.tab.c"
 
       default: break;
     }
@@ -1569,7 +1643,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 184 "matemagica.y"
+#line 235 "matemagica.y"
 
 
 

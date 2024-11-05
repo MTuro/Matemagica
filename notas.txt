@@ -1,7 +1,6 @@
-- Fazer o negocio do result, sprintf para a condicional
-(é por isso que os testes 5 e 6 não estão funcionando)
-
 - Adicionar casos faltantes de comandos
 
 - Consertar para quando tem mais de um comando no for 
 (obs1: talvez não funcione para dentro do if também, enfim...)
+
+-Apagar prints no .y e adicionar comentarios

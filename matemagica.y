@@ -98,6 +98,17 @@ impressao:
         sprintf(result, "print(%d)", $2);
         $$ = result;
     }
+    | MOSTRE operacao '.' { 
+        char* result = malloc(strlen($2) + 10);
+        if (result == NULL){
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+
+        sprintf(result, "print(%s)", $2);
+        $$ = result;
+        fflush(outputFile);
+    }
     ;
 
 operacao:
@@ -172,13 +183,53 @@ condicional:
     SE IDENTIFIER ENTAO cmds FIM { 
         printf("IDENTIFIER = %s\n", $2); fflush(stdout);
         printf("Command received = %s\n", $4); fflush(stdout);
-        fprintf(outputFile, "if %s then\n%s\nend\n", $2, $4);
+        char* result = malloc(strlen($2) + strlen($4) + 15); fflush(stdout);
+        if (result == NULL){
+           yyerror("Memory allocation failed");
+           YYABORT;
+        }
+        sprintf(result, "if %s then\n%s\nend\n", $2, $4);
+        $$ = result;
+        fflush(outputFile);
+    }
+    | SE NUM ENTAO cmds FIM{
+        printf("NUM = %d\n", $2); fflush(stdout);
+        printf("Command received = %s\n", $4); fflush(stdout);
+        char* result = malloc(strlen($4) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %d ~= 0 then\n%s\nend", $2, $4);
+        $$ = result;
         fflush(outputFile);
     }
     | SE IDENTIFIER ENTAO cmds SENAO cmds FIM { 
-        fprintf(outputFile, "if %s ~= 0 then\n%s\nelse\n%s\nend\n", $2, $4, $6);
+        printf("IDENTIFIER = %s\n", $2); fflush(stdout);
+        printf("Then command = %s\n", $4); fflush(stdout);
+        printf("Else command = %s\n", $6); fflush(stdout);
+        char* result = malloc(strlen($4) + strlen($6) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s ~= 0 then\n%s\nelse\n%s\nend", $2, $4, $6);
+        $$ = result;
         fflush(outputFile);
-    }
+    } 
+    | SE NUM ENTAO cmds SENAO cmds FIM{
+        printf("NUM = %d\n", $2); fflush(stdout);
+        printf("Then command = %s\n", $4); fflush(stdout);
+        printf("Else command = %s\n", $6); fflush(stdout);
+        char* result = malloc(strlen($4) + strlen($6) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %d ~= 0 then\n%s\nelse\n%s\nend", $2, $4, $6);
+        $$ = result;
+        fflush(outputFile);
+    } 
     ;
 
 %%
