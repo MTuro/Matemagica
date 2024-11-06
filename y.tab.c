@@ -605,9 +605,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    29,    29,    34,    47,    59,    60,    61,    62,    63,
-      67,    80,    92,   101,   115,   125,   135,   145,   159,   183,
-     195,   207,   220
+       0,    29,    29,    37,    48,    59,    60,    61,    62,    63,
+      67,    79,    88,    97,   110,   119,   128,   137,   149,   167,
+     177,   187,   198
 };
 #endif
 
@@ -1197,77 +1197,75 @@ yyreduce:
     {
   case 2: /* programa: cmds  */
 #line 29 "matemagica.y"
-         {  fprintf(outputFile, "%s\n", (yyvsp[0].str));
-            fflush(outputFile); }
-#line 1203 "y.tab.c"
+         { 
+        fprintf(outputFile, "%s\n", (yyvsp[0].str));
+        free((yyvsp[0].str));
+        fflush(outputFile); 
+    }
+#line 1206 "y.tab.c"
     break;
 
   case 3: /* cmds: cmd cmds  */
-#line 34 "matemagica.y"
+#line 37 "matemagica.y"
              { 
-        printf("COMMAND: %s\n%s", (yyvsp[-1].str), (yyvsp[0].str));
-        fflush(stdout);
-        char* result = malloc(strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 2);
+        char *result = malloc(strlen((yyvsp[-1].str)) + strlen((yyvsp[0].str)) + 2);
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "%s\n%s", (yyvsp[-1].str), (yyvsp[0].str));
         (yyval.str) = result;
-        fflush(outputFile);
+        free((yyvsp[-1].str));
+        free((yyvsp[0].str));
     }
-#line 1221 "y.tab.c"
+#line 1222 "y.tab.c"
     break;
 
   case 4: /* cmds: cmd  */
-#line 47 "matemagica.y"
+#line 48 "matemagica.y"
           { 
         (yyval.str) = strdup((yyvsp[0].str));
-         if ((yyval.str) == NULL) {
+        if ((yyval.str) == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        fflush(outputFile);
+        free((yyvsp[0].str));
     }
-#line 1234 "y.tab.c"
+#line 1235 "y.tab.c"
     break;
 
   case 10: /* atribuicao: FACA IDENTIFIER SER NUM '.'  */
 #line 67 "matemagica.y"
                                 { 
-        char *result = malloc(strlen((yyvsp[-3].str)) + sizeof(int));
+        char *result = malloc(strlen((yyvsp[-3].str)) + 20);  // Size adjusted for identifier and number
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "%s = %d", (yyvsp[-3].str), (yyvsp[-1].num)); 
         (yyval.str) = result;
-        fflush(outputFile);}
+    }
 #line 1249 "y.tab.c"
     break;
 
   case 11: /* impressao: MOSTRE IDENTIFIER '.'  */
-#line 80 "matemagica.y"
+#line 79 "matemagica.y"
                           { 
-        char* result = malloc(strlen((yyvsp[-1].str)));
+        char *result = malloc(strlen((yyvsp[-1].str)) + 10); // Space for identifier and format
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "print(%s)", (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
     }
-#line 1265 "y.tab.c"
+#line 1263 "y.tab.c"
     break;
 
   case 12: /* impressao: MOSTRE NUM '.'  */
-#line 92 "matemagica.y"
+#line 88 "matemagica.y"
                      {
-        char* result = malloc(sizeof(int));
+        char *result = malloc(20);  // Space for formatted number
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
@@ -1275,27 +1273,26 @@ yyreduce:
         sprintf(result, "print(%d)", (yyvsp[-1].num));
         (yyval.str) = result;
     }
-#line 1279 "y.tab.c"
+#line 1277 "y.tab.c"
     break;
 
   case 13: /* impressao: MOSTRE operacao '.'  */
-#line 101 "matemagica.y"
+#line 97 "matemagica.y"
                           { 
-        char* result = malloc(strlen((yyvsp[-1].str)) + 10);
+        char *result = malloc(strlen((yyvsp[-1].str)) + 10);  // Space for operation result
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "print(%s)", (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
+        free((yyvsp[-1].str));
     }
-#line 1295 "y.tab.c"
+#line 1292 "y.tab.c"
     break;
 
   case 14: /* operacao: SOME IDENTIFIER COM IDENTIFIER '.'  */
-#line 115 "matemagica.y"
+#line 110 "matemagica.y"
                                        { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + strlen((yyvsp[-1].str)) + 10);
         if (result == NULL) {
@@ -1303,29 +1300,27 @@ yyreduce:
             YYABORT;
         }
         sprintf(result, "%s = %s + %s", (yyvsp[-3].str), (yyvsp[-3].str), (yyvsp[-1].str));
-        (yyval.str) = result; // Retorna a string para ser usada em cmds
-        fflush(outputFile);
+        (yyval.str) = result;
     }
-#line 1310 "y.tab.c"
+#line 1306 "y.tab.c"
     break;
 
   case 15: /* operacao: SOME IDENTIFIER COM NUM '.'  */
-#line 125 "matemagica.y"
+#line 119 "matemagica.y"
                                   { 
-        char *result = malloc(strlen((yyvsp[-3].str)) * 2 + 20); // Espaço suficiente para o número
+        char *result = malloc(strlen((yyvsp[-3].str)) * 2 + 20);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "%s = %s + %d", (yyvsp[-3].str), (yyvsp[-3].str), (yyvsp[-1].num));
         (yyval.str) = result;
-        fflush(outputFile);
     }
-#line 1325 "y.tab.c"
+#line 1320 "y.tab.c"
     break;
 
   case 16: /* operacao: MULTIPLIQUE IDENTIFIER POR IDENTIFIER '.'  */
-#line 135 "matemagica.y"
+#line 128 "matemagica.y"
                                                 { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + strlen((yyvsp[-1].str)) + 10);
         if (result == NULL) {
@@ -1334,13 +1329,12 @@ yyreduce:
         }
         sprintf(result, "%s = %s * %s", (yyvsp[-3].str), (yyvsp[-3].str), (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
     }
-#line 1340 "y.tab.c"
+#line 1334 "y.tab.c"
     break;
 
   case 17: /* operacao: MULTIPLIQUE IDENTIFIER POR NUM '.'  */
-#line 145 "matemagica.y"
+#line 137 "matemagica.y"
                                          { 
         char *result = malloc(strlen((yyvsp[-3].str)) * 2 + 20);
         if (result == NULL) {
@@ -1349,108 +1343,94 @@ yyreduce:
         }
         sprintf(result, "%s = %s * %d", (yyvsp[-3].str), (yyvsp[-3].str), (yyvsp[-1].num));
         (yyval.str) = result;
-        fflush(outputFile);
     }
-#line 1355 "y.tab.c"
+#line 1348 "y.tab.c"
     break;
 
   case 18: /* repeticao: REPITA NUM VEZES ':' cmds FIM  */
-#line 159 "matemagica.y"
+#line 149 "matemagica.y"
                                   { 
-        printf("COMANDO REPT: %s\n", (yyvsp[-1].str)); fflush(stdout);
         if ((yyvsp[-1].str) != NULL) {
-            char* result = malloc(strlen((yyvsp[-1].str)) * 2 + 20);
+            char *result = malloc(strlen((yyvsp[-1].str)) + 40);
             if (result == NULL){
                 yyerror("Memory allocation failed");
                 YYABORT;
             }
-
             sprintf(result, "for i = 1, %d do\n%s\nend", (yyvsp[-4].num), (yyvsp[-1].str));
             (yyval.str) = result;
+            free((yyvsp[-1].str));
         } else {
-            printf("Captured cmds inside repetition is NULL\n");
-            fflush(stdout);
-            yyerror("Capture inside repetition is NULL");
+            yyerror("Invalid repetition command.");
             YYABORT;
         }
-
-        fflush(outputFile);
     }
-#line 1380 "y.tab.c"
+#line 1368 "y.tab.c"
     break;
 
   case 19: /* condicional: SE IDENTIFIER ENTAO cmds FIM  */
-#line 183 "matemagica.y"
+#line 167 "matemagica.y"
                                  { 
-        printf("IDENTIFIER = %s\n", (yyvsp[-3].str)); fflush(stdout);
-        printf("Command received = %s\n", (yyvsp[-1].str)); fflush(stdout);
-        char* result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 15); fflush(stdout);
+        char *result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 20);
         if (result == NULL){
            yyerror("Memory allocation failed");
            YYABORT;
         }
         sprintf(result, "if %s then\n%s\nend\n", (yyvsp[-3].str), (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
+        free((yyvsp[-1].str));
     }
-#line 1397 "y.tab.c"
+#line 1383 "y.tab.c"
     break;
 
   case 20: /* condicional: SE NUM ENTAO cmds FIM  */
-#line 195 "matemagica.y"
-                           {
-        printf("NUM = %d\n", (yyvsp[-3].num)); fflush(stdout);
-        printf("Command received = %s\n", (yyvsp[-1].str)); fflush(stdout);
-        char* result = malloc(strlen((yyvsp[-1].str)) + 30);
+#line 177 "matemagica.y"
+                            {
+        char *result = malloc(strlen((yyvsp[-1].str)) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %d ~= 0 then\n%s\nend", (yyvsp[-3].num), (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
+        free((yyvsp[-1].str));
     }
-#line 1414 "y.tab.c"
+#line 1398 "y.tab.c"
     break;
 
   case 21: /* condicional: SE IDENTIFIER ENTAO cmds SENAO cmds FIM  */
-#line 207 "matemagica.y"
+#line 187 "matemagica.y"
                                               { 
-        printf("IDENTIFIER = %s\n", (yyvsp[-5].str)); fflush(stdout);
-        printf("Then command = %s\n", (yyvsp[-3].str)); fflush(stdout);
-        printf("Else command = %s\n", (yyvsp[-1].str)); fflush(stdout);
-        char* result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        char *result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %s ~= 0 then\n%s\nelse\n%s\nend", (yyvsp[-5].str), (yyvsp[-3].str), (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
+        free((yyvsp[-3].str));
+        free((yyvsp[-1].str));
     }
-#line 1432 "y.tab.c"
+#line 1414 "y.tab.c"
     break;
 
   case 22: /* condicional: SE NUM ENTAO cmds SENAO cmds FIM  */
-#line 220 "matemagica.y"
-                                      {
-        printf("NUM = %d\n", (yyvsp[-5].num)); fflush(stdout);
-        printf("Then command = %s\n", (yyvsp[-3].str)); fflush(stdout);
-        printf("Else command = %s\n", (yyvsp[-1].str)); fflush(stdout);
-        char* result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+#line 198 "matemagica.y"
+                                       {
+        char *result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %d ~= 0 then\n%s\nelse\n%s\nend", (yyvsp[-5].num), (yyvsp[-3].str), (yyvsp[-1].str));
         (yyval.str) = result;
-        fflush(outputFile);
+        free((yyvsp[-3].str));
+        free((yyvsp[-1].str));
     }
-#line 1450 "y.tab.c"
+#line 1430 "y.tab.c"
     break;
 
 
-#line 1454 "y.tab.c"
+#line 1434 "y.tab.c"
 
       default: break;
     }
@@ -1643,14 +1623,9 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 235 "matemagica.y"
-
-
+#line 211 "matemagica.y"
 
 
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
-    if (yylval.str != NULL) {
-        free(yylval.str);
-    }
 }

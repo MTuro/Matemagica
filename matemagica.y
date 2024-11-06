@@ -26,34 +26,34 @@ extern FILE *outputFile;
 %%
 
 programa:
-    cmds {  fprintf(outputFile, "%s\n", $1);
-            fflush(outputFile); }
+    cmds { 
+        fprintf(outputFile, "%s\n", $1);
+        free($1);
+        fflush(outputFile); 
+    }
     ;
 
 cmds:
     cmd cmds { 
-        printf("COMMAND: %s\n%s", $1, $2);
-        fflush(stdout);
-        char* result = malloc(strlen($1) + strlen($2) + 2);
+        char *result = malloc(strlen($1) + strlen($2) + 2);
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "%s\n%s", $1, $2);
         $$ = result;
-        fflush(outputFile);
+        free($1);
+        free($2);
     }
     | cmd { 
         $$ = strdup($1);
-         if ($$ == NULL) {
+        if ($$ == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        fflush(outputFile);
+        free($1);
     }
     ;
-
 
 cmd:
     atribuicao
@@ -65,32 +65,28 @@ cmd:
 
 atribuicao:
     FACA IDENTIFIER SER NUM '.' { 
-        char *result = malloc(strlen($2) + sizeof(int));
+        char *result = malloc(strlen($2) + 20);  // Size adjusted for identifier and number
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "%s = %d", $2, $4); 
         $$ = result;
-        fflush(outputFile);}
+    }
     ;
 
 impressao:
     MOSTRE IDENTIFIER '.' { 
-        char* result = malloc(strlen($2));
+        char *result = malloc(strlen($2) + 10); // Space for identifier and format
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "print(%s)", $2);
         $$ = result;
-        fflush(outputFile);
     }
-
     | MOSTRE NUM '.' {
-        char* result = malloc(sizeof(int));
+        char *result = malloc(20);  // Space for formatted number
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
@@ -99,15 +95,14 @@ impressao:
         $$ = result;
     }
     | MOSTRE operacao '.' { 
-        char* result = malloc(strlen($2) + 10);
+        char *result = malloc(strlen($2) + 10);  // Space for operation result
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
         }
-
         sprintf(result, "print(%s)", $2);
         $$ = result;
-        fflush(outputFile);
+        free($2);
     }
     ;
 
@@ -119,18 +114,16 @@ operacao:
             YYABORT;
         }
         sprintf(result, "%s = %s + %s", $2, $2, $4);
-        $$ = result; // Retorna a string para ser usada em cmds
-        fflush(outputFile);
+        $$ = result;
     }
     | SOME IDENTIFIER COM NUM '.' { 
-        char *result = malloc(strlen($2) * 2 + 20); // Espaço suficiente para o número
+        char *result = malloc(strlen($2) * 2 + 20);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "%s = %s + %d", $2, $2, $4);
         $$ = result;
-        fflush(outputFile);
     }
     | MULTIPLIQUE IDENTIFIER POR IDENTIFIER '.' { 
         char *result = malloc(strlen($2) * 2 + strlen($4) + 10);
@@ -140,7 +133,6 @@ operacao:
         }
         sprintf(result, "%s = %s * %s", $2, $2, $4);
         $$ = result;
-        fflush(outputFile);
     }
     | MULTIPLIQUE IDENTIFIER POR NUM '.' { 
         char *result = malloc(strlen($2) * 2 + 20);
@@ -150,95 +142,74 @@ operacao:
         }
         sprintf(result, "%s = %s * %d", $2, $2, $4);
         $$ = result;
-        fflush(outputFile);
     }
     ;
 
-
 repeticao:
     REPITA NUM VEZES ':' cmds FIM { 
-        printf("COMANDO REPT: %s\n", $5); fflush(stdout);
         if ($5 != NULL) {
-            char* result = malloc(strlen($5) * 2 + 20);
+            char *result = malloc(strlen($5) + 40);
             if (result == NULL){
                 yyerror("Memory allocation failed");
                 YYABORT;
             }
-
             sprintf(result, "for i = 1, %d do\n%s\nend", $2, $5);
             $$ = result;
+            free($5);
         } else {
-            printf("Captured cmds inside repetition is NULL\n");
-            fflush(stdout);
-            yyerror("Capture inside repetition is NULL");
+            yyerror("Invalid repetition command.");
             YYABORT;
         }
-
-        fflush(outputFile);
     }
     ;
 
-
 condicional:
     SE IDENTIFIER ENTAO cmds FIM { 
-        printf("IDENTIFIER = %s\n", $2); fflush(stdout);
-        printf("Command received = %s\n", $4); fflush(stdout);
-        char* result = malloc(strlen($2) + strlen($4) + 15); fflush(stdout);
+        char *result = malloc(strlen($2) + strlen($4) + 20);
         if (result == NULL){
            yyerror("Memory allocation failed");
            YYABORT;
         }
         sprintf(result, "if %s then\n%s\nend\n", $2, $4);
         $$ = result;
-        fflush(outputFile);
+        free($4);
     }
-    | SE NUM ENTAO cmds FIM{
-        printf("NUM = %d\n", $2); fflush(stdout);
-        printf("Command received = %s\n", $4); fflush(stdout);
-        char* result = malloc(strlen($4) + 30);
+    | SE NUM ENTAO cmds FIM {
+        char *result = malloc(strlen($4) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %d ~= 0 then\n%s\nend", $2, $4);
         $$ = result;
-        fflush(outputFile);
+        free($4);
     }
     | SE IDENTIFIER ENTAO cmds SENAO cmds FIM { 
-        printf("IDENTIFIER = %s\n", $2); fflush(stdout);
-        printf("Then command = %s\n", $4); fflush(stdout);
-        printf("Else command = %s\n", $6); fflush(stdout);
-        char* result = malloc(strlen($4) + strlen($6) + 30);
+        char *result = malloc(strlen($4) + strlen($6) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %s ~= 0 then\n%s\nelse\n%s\nend", $2, $4, $6);
         $$ = result;
-        fflush(outputFile);
+        free($4);
+        free($6);
     } 
-    | SE NUM ENTAO cmds SENAO cmds FIM{
-        printf("NUM = %d\n", $2); fflush(stdout);
-        printf("Then command = %s\n", $4); fflush(stdout);
-        printf("Else command = %s\n", $6); fflush(stdout);
-        char* result = malloc(strlen($4) + strlen($6) + 30);
+    | SE NUM ENTAO cmds SENAO cmds FIM {
+        char *result = malloc(strlen($4) + strlen($6) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %d ~= 0 then\n%s\nelse\n%s\nend", $2, $4, $6);
         $$ = result;
-        fflush(outputFile);
+        free($4);
+        free($6);
     } 
     ;
 
 %%
 
-
-
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
-    if (yylval.str != NULL) {
-        free(yylval.str);
-    }
 }
