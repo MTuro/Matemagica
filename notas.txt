@@ -1,6 +1,21 @@
-- Adicionar casos faltantes de comandos
-
-- Consertar para quando tem mais de um comando no for 
-(obs1: talvez não funcione para dentro do if também, enfim...)
+- Adicionar casos faltantes de comandos (acho que foi)
 
 -Apagar prints no .y e adicionar comentarios
+
+- Ver se dá para fazer as operações de um jeito reduzido no .y. 
+Invés de por todas as combinações, botar um var ou num. Exemplo:
+
+Invés de:
+// num + identifier
+// identifier + identifier
+// identifier + num
+// num * num
+// num * identifier
+// identifier * identifier
+// identifier * num
+
+Só um: 
+(var ou num) + (var ou num)
+(var ou num) * (var ou num)
+
+- Adicionar subtração e divisão?
