@@ -1449,7 +1449,7 @@ yyreduce:
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "%d + %d", (yyvsp[-3].num), (yyvsp[-1].num));
+        sprintf(result, "var_default = %d + %d", (yyvsp[-3].num), (yyvsp[-1].num));
         (yyval.str) = result;
     }
 #line 1456 "y.tab.c"
@@ -1505,7 +1505,7 @@ yyreduce:
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "%d * %d", (yyvsp[-3].num), (yyvsp[-1].num));
+        sprintf(result, "var_default = %d * %d", (yyvsp[-3].num), (yyvsp[-1].num));
         (yyval.str) = result;
     }
 #line 1512 "y.tab.c"

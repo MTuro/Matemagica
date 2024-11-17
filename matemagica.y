@@ -197,7 +197,7 @@ operacao:
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "%d + %d", $2, $4);
+        sprintf(result, "var_default = %d + %d", $2, $4);
         $$ = result;
     }
     | SOME NUM COM IDENTIFIER '.' { 
@@ -233,7 +233,7 @@ operacao:
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "%d * %d", $2, $4);
+        sprintf(result, "var_default = %d * %d", $2, $4);
         $$ = result;
     }
     | MULTIPLIQUE IDENTIFIER POR IDENTIFIER '.' { 
