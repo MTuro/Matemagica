@@ -19,7 +19,7 @@ extern FILE *outputFile;
 %token <num> NUM
 %token <str> IDENTIFIER
 
-%token FACA SER MOSTRE SOME COM REPITA VEZES FIM MULTIPLIQUE POR SE ENTAO SENAO
+%token FACA SER MOSTRE SOME COM REPITA VEZES FIM MULTIPLIQUE POR SE ENTAO SENAO MAIOR MENOR QUE
 
 %type <str> cmds cmd atribuicao impressao operacao repeticao condicional operacaoI var
 
@@ -92,7 +92,17 @@ atribuicao:
         }
         sprintf(result, "%s = %s", $2, $4);
         $$ = result;
-        free($4);
+        free($4);       
+    }
+    | FACA var SER operacaoI '.' {
+        char *result = malloc(strlen($2) + strlen($4) + 10);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "%s = %s", $2, $4);
+        $$ = result;
+        free($4);    
     }
     ;
 
@@ -260,6 +270,56 @@ condicional:
         free($2);
         free($4);
         free($6);
+    }
+    | SE var MAIOR QUE var ENTAO cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($5) + strlen($7) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s > %s then\n%s\nend", $2, $5, $7);
+        $$ = result;
+        free($2);
+        free($5);
+        free($7);
+    }
+    | SE var MAIOR QUE var ENTAO cmds SENAO cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($5) + strlen($7) + strlen($9) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s > %s then\n%s\nelse\n%s\nend", $2, $5, $7, $9);
+        $$ = result;
+        free($2);
+        free($5);
+        free($7);
+        free($9);
+    }
+    | SE var MENOR QUE var ENTAO cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($5) + strlen($7) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s < %s then\n%s\nend", $2, $5, $7);
+        $$ = result;
+        free($2);
+        free($5);
+        free($7);
+    }
+    | SE var MENOR QUE var ENTAO cmds SENAO cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($5) + strlen($7) + strlen($9) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s < %s then\n%s\nelse\n%s\nend", $2, $5, $7, $9);
+        $$ = result;
+        free($2);
+        free($5);
+        free($7);
+        free($9);
     }
     ;
 

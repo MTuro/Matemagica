@@ -17,6 +17,9 @@
 "SE"             { return SE; }
 "ENTAO"          { return ENTAO; }
 "SENAO"          { return SENAO; }
+"MAIOR"          { return MAIOR; }
+"MENOR"          { return MENOR; }
+"QUE"            { return QUE; }
 [0-9]+           { yylval.num = atoi(yytext); return NUM; }
 [a-zA-Z][a-zA-Z0-9]* {   
                         yylval.str = (char*) malloc(strlen(yytext) + 1); // +1 para o caractere nulo

@@ -1,21 +1,12 @@
-- Adicionar casos faltantes de comandos (acho que foi)
+- Adicionar:
 
--Apagar prints no .y e adicionar comentarios
+FACA texto1 SER "Olá" ? 
 
-- Ver se dá para fazer as operações de um jeito reduzido no .y. 
-Invés de por todas as combinações, botar um var ou num. Exemplo:
+FACA x SER SOME x COM y ? ok
 
-Invés de:
-// num + identifier
-// identifier + identifier
-// identifier + num
-// num * num
-// num * identifier
-// identifier * identifier
-// identifier * num
+SE x MAIOR QUE y ENTAO ... ? ok
 
-Só um: 
-(var ou num) + (var ou num)
-(var ou num) * (var ou num)
+SE x MENOR QUE y ENTAO ... ? ok
 
-- Adicionar subtração e divisão?
+- Achar um outro nome para 'operacaoI' (ta sendo usado para atribuicao
+agora tambem)

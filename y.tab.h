@@ -68,7 +68,10 @@ extern int yydebug;
     POR = 269,                     /* POR  */
     SE = 270,                      /* SE  */
     ENTAO = 271,                   /* ENTAO  */
-    SENAO = 272                    /* SENAO  */
+    SENAO = 272,                   /* SENAO  */
+    MAIOR = 273,                   /* MAIOR  */
+    MENOR = 274,                   /* MENOR  */
+    QUE = 275                      /* QUE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -92,6 +95,9 @@ extern int yydebug;
 #define SE 270
 #define ENTAO 271
 #define SENAO 272
+#define MAIOR 273
+#define MENOR 274
+#define QUE 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -102,7 +108,7 @@ union YYSTYPE
     int num;       /* Para números */
     char *str;     /* Para strings e variáveis */
 
-#line 106 "y.tab.h"
+#line 112 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

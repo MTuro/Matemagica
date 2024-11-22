@@ -138,7 +138,10 @@ extern int yydebug;
     POR = 269,                     /* POR  */
     SE = 270,                      /* SE  */
     ENTAO = 271,                   /* ENTAO  */
-    SENAO = 272                    /* SENAO  */
+    SENAO = 272,                   /* SENAO  */
+    MAIOR = 273,                   /* MAIOR  */
+    MENOR = 274,                   /* MENOR  */
+    QUE = 275                      /* QUE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -162,6 +165,9 @@ extern int yydebug;
 #define SE 270
 #define ENTAO 271
 #define SENAO 272
+#define MAIOR 273
+#define MENOR 274
+#define QUE 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -172,7 +178,7 @@ union YYSTYPE
     int num;       /* Para números */
     char *str;     /* Para strings e variáveis */
 
-#line 176 "y.tab.c"
+#line 182 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -210,19 +216,22 @@ enum yysymbol_kind_t
   YYSYMBOL_SE = 15,                        /* SE  */
   YYSYMBOL_ENTAO = 16,                     /* ENTAO  */
   YYSYMBOL_SENAO = 17,                     /* SENAO  */
-  YYSYMBOL_18_ = 18,                       /* '.'  */
-  YYSYMBOL_19_ = 19,                       /* ':'  */
-  YYSYMBOL_YYACCEPT = 20,                  /* $accept  */
-  YYSYMBOL_programa = 21,                  /* programa  */
-  YYSYMBOL_cmds = 22,                      /* cmds  */
-  YYSYMBOL_cmd = 23,                       /* cmd  */
-  YYSYMBOL_var = 24,                       /* var  */
-  YYSYMBOL_atribuicao = 25,                /* atribuicao  */
-  YYSYMBOL_impressao = 26,                 /* impressao  */
-  YYSYMBOL_operacao = 27,                  /* operacao  */
-  YYSYMBOL_operacaoI = 28,                 /* operacaoI  */
-  YYSYMBOL_repeticao = 29,                 /* repeticao  */
-  YYSYMBOL_condicional = 30                /* condicional  */
+  YYSYMBOL_MAIOR = 18,                     /* MAIOR  */
+  YYSYMBOL_MENOR = 19,                     /* MENOR  */
+  YYSYMBOL_QUE = 20,                       /* QUE  */
+  YYSYMBOL_21_ = 21,                       /* '.'  */
+  YYSYMBOL_22_ = 22,                       /* ':'  */
+  YYSYMBOL_YYACCEPT = 23,                  /* $accept  */
+  YYSYMBOL_programa = 24,                  /* programa  */
+  YYSYMBOL_cmds = 25,                      /* cmds  */
+  YYSYMBOL_cmd = 26,                       /* cmd  */
+  YYSYMBOL_var = 27,                       /* var  */
+  YYSYMBOL_atribuicao = 28,                /* atribuicao  */
+  YYSYMBOL_impressao = 29,                 /* impressao  */
+  YYSYMBOL_operacao = 30,                  /* operacao  */
+  YYSYMBOL_operacaoI = 31,                 /* operacaoI  */
+  YYSYMBOL_repeticao = 32,                 /* repeticao  */
+  YYSYMBOL_condicional = 33                /* condicional  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -550,19 +559,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  26
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   45
+#define YYLAST   66
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  20
+#define YYNTOKENS  23
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  11
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  21
+#define YYNRULES  26
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  55
+#define YYNSTATES  75
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   272
+#define YYMAXUTOK   275
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -580,8 +589,8 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,    18,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,    19,     2,
+       2,     2,     2,     2,     2,     2,    21,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,    22,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -603,16 +612,16 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17
+      15,    16,    17,    18,    19,    20
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
        0,    30,    30,    38,    49,    60,    61,    62,    63,    64,
-      68,    77,    87,   100,   110,   123,   161,   202,   213,   227,
-     241,   252
+      68,    77,    87,    97,   110,   120,   133,   171,   212,   223,
+     237,   251,   262,   274,   286,   299,   311
 };
 #endif
 
@@ -630,9 +639,9 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "NUM", "IDENTIFIER",
   "FACA", "SER", "MOSTRE", "SOME", "COM", "REPITA", "VEZES", "FIM",
-  "MULTIPLIQUE", "POR", "SE", "ENTAO", "SENAO", "'.'", "':'", "$accept",
-  "programa", "cmds", "cmd", "var", "atribuicao", "impressao", "operacao",
-  "operacaoI", "repeticao", "condicional", YY_NULLPTR
+  "MULTIPLIQUE", "POR", "SE", "ENTAO", "SENAO", "MAIOR", "MENOR", "QUE",
+  "'.'", "':'", "$accept", "programa", "cmds", "cmd", "var", "atribuicao",
+  "impressao", "operacao", "operacaoI", "repeticao", "condicional", YY_NULLPTR
 };
 
 static const char *
@@ -642,7 +651,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-10)
+#define YYPACT_NINF (-16)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -656,12 +665,14 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       2,    19,    17,    19,    19,    19,    19,     1,   -10,     2,
-     -10,   -10,   -10,   -10,   -10,   -10,   -10,     5,    19,    19,
-      -2,     6,    20,     3,    12,    15,   -10,   -10,    19,    25,
-      22,   -10,   -10,    19,    18,    19,     2,    23,    19,    19,
-      26,     2,    27,    -4,   -10,   -10,   -10,   -10,    28,   -10,
-     -10,     2,   -10,    31,   -10
+       5,    36,    20,    36,    36,    36,    36,    17,   -16,     5,
+     -16,   -16,   -16,   -16,   -16,   -16,   -16,    -4,    36,    36,
+       8,    11,    25,    15,    23,   -15,   -16,   -16,    20,    32,
+      28,   -16,   -16,    36,    21,    36,     5,    26,    27,    31,
+      34,    36,    36,    35,     5,    37,    -1,    36,    36,   -16,
+     -16,   -16,   -16,   -16,    45,   -16,   -16,     5,    33,    44,
+     -16,    50,     5,     5,   -16,     2,    13,   -16,     5,   -16,
+       5,    51,    52,   -16,   -16
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -672,16 +683,18 @@ static const yytype_int8 yydefact[] =
        0,     0,     0,     0,     0,     0,     0,     0,     2,     4,
        5,     6,     7,     8,     9,    10,    11,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     1,     3,     0,     0,
-       0,    13,    14,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    12,    17,    18,    15,     0,    16,
-      20,     0,    19,     0,    21
+       0,    14,    15,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,    12,
+      13,    18,    19,    16,     0,    17,    21,     0,     0,     0,
+      20,     0,     0,     0,    22,     0,     0,    23,     0,    25,
+       0,     0,     0,    24,    26
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -10,   -10,    -9,   -10,     0,   -10,   -10,   -10,   -10,   -10,
-     -10
+     -16,   -16,    -9,   -16,     3,   -16,   -16,   -16,    38,   -16,
+     -16
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -696,48 +709,54 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      27,    26,    20,    22,    23,    24,    25,     1,    50,     2,
-       3,    28,     4,    51,    34,     5,    31,     6,    29,    30,
-      15,    16,    15,    16,    32,    18,    35,    43,    37,    33,
-      19,    36,    48,    40,    38,    42,    39,    41,    45,    46,
-      52,    44,    53,    54,    47,    49
+      27,    36,    28,    37,    38,    20,    22,    23,    24,    25,
+       1,    56,     2,     3,    67,     4,    57,    26,     5,    68,
+       6,    29,    30,    15,    16,    69,    34,    46,    18,    31,
+      70,    39,    32,    19,    33,    54,    43,    35,    45,    15,
+      16,    41,    42,    44,    51,    52,    47,    48,    61,    62,
+      58,    59,    49,    65,    66,    50,    53,    60,    55,    71,
+      63,    72,    64,    73,    74,     0,    40
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,     0,     2,     3,     4,     5,     6,     5,    12,     7,
-       8,     6,    10,    17,    11,    13,    18,    15,    18,    19,
-       3,     4,     3,     4,    18,     8,    14,    36,    28,     9,
-      13,    16,    41,    33,     9,    35,    14,    19,    38,    39,
-      12,    18,    51,    12,    18,    18
+       9,    16,     6,    18,    19,     2,     3,     4,     5,     6,
+       5,    12,     7,     8,    12,    10,    17,     0,    13,    17,
+      15,    18,    19,     3,     4,    12,    11,    36,     8,    21,
+      17,    28,    21,    13,     9,    44,    33,    14,    35,     3,
+       4,     9,    14,    22,    41,    42,    20,    20,    57,    16,
+      47,    48,    21,    62,    63,    21,    21,    12,    21,    68,
+      16,    70,    12,    12,    12,    -1,    28
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     5,     7,     8,    10,    13,    15,    21,    22,    23,
-      25,    26,    27,    29,    30,     3,     4,    24,     8,    13,
-      24,    28,    24,    24,    24,    24,     0,    22,     6,    24,
-      24,    18,    18,     9,    11,    14,    16,    24,     9,    14,
-      24,    19,    24,    22,    18,    24,    24,    18,    22,    18,
-      12,    17,    12,    22,    12
+       0,     5,     7,     8,    10,    13,    15,    24,    25,    26,
+      28,    29,    30,    32,    33,     3,     4,    27,     8,    13,
+      27,    31,    27,    27,    27,    27,     0,    25,     6,    27,
+      27,    21,    21,     9,    11,    14,    16,    18,    19,    27,
+      31,     9,    14,    27,    22,    27,    25,    20,    20,    21,
+      21,    27,    27,    21,    25,    21,    12,    17,    27,    27,
+      12,    25,    16,    16,    12,    25,    25,    12,    17,    12,
+      17,    25,    25,    12,    12
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    20,    21,    22,    22,    23,    23,    23,    23,    23,
-      24,    24,    25,    26,    26,    27,    27,    28,    28,    29,
-      30,    30
+       0,    23,    24,    25,    25,    26,    26,    26,    26,    26,
+      27,    27,    28,    28,    29,    29,    30,    30,    31,    31,
+      32,    33,    33,    33,    33,    33,    33
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     1,     1,     1,     1,     1,     1,
-       1,     1,     5,     3,     3,     5,     5,     4,     4,     6,
-       5,     7
+       1,     1,     5,     5,     3,     3,     5,     5,     4,     4,
+       6,     5,     7,     8,    10,     8,    10
 };
 
 
@@ -1207,7 +1226,7 @@ yyreduce:
         free((yyvsp[0].str));
         fflush(outputFile); 
     }
-#line 1211 "y.tab.c"
+#line 1230 "y.tab.c"
     break;
 
   case 3: /* cmds: cmd cmds  */
@@ -1223,7 +1242,7 @@ yyreduce:
         free((yyvsp[-1].str));
         free((yyvsp[0].str));
     }
-#line 1227 "y.tab.c"
+#line 1246 "y.tab.c"
     break;
 
   case 4: /* cmds: cmd  */
@@ -1236,7 +1255,7 @@ yyreduce:
         }
         free((yyvsp[0].str));
     }
-#line 1240 "y.tab.c"
+#line 1259 "y.tab.c"
     break;
 
   case 10: /* var: NUM  */
@@ -1250,7 +1269,7 @@ yyreduce:
         sprintf(result, "%d", (yyvsp[0].num));
         (yyval.str) = result;
     }
-#line 1254 "y.tab.c"
+#line 1273 "y.tab.c"
     break;
 
   case 11: /* var: IDENTIFIER  */
@@ -1262,7 +1281,7 @@ yyreduce:
             YYABORT;
         }
     }
-#line 1266 "y.tab.c"
+#line 1285 "y.tab.c"
     break;
 
   case 12: /* atribuicao: FACA var SER var '.'  */
@@ -1275,13 +1294,28 @@ yyreduce:
         }
         sprintf(result, "%s = %s", (yyvsp[-3].str), (yyvsp[-1].str));
         (yyval.str) = result;
-        free((yyvsp[-1].str));
+        free((yyvsp[-1].str));       
     }
-#line 1281 "y.tab.c"
+#line 1300 "y.tab.c"
     break;
 
-  case 13: /* impressao: MOSTRE var '.'  */
-#line 100 "matemagica.y"
+  case 13: /* atribuicao: FACA var SER operacaoI '.'  */
+#line 97 "matemagica.y"
+                                 {
+        char *result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 10);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "%s = %s", (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
+        free((yyvsp[-1].str));    
+    }
+#line 1315 "y.tab.c"
+    break;
+
+  case 14: /* impressao: MOSTRE var '.'  */
+#line 110 "matemagica.y"
                    {
         char *result = malloc(strlen((yyvsp[-1].str)) + 10);
         if (result == NULL) {
@@ -1292,11 +1326,11 @@ yyreduce:
         (yyval.str) = result;
         free((yyvsp[-1].str));
     }
-#line 1296 "y.tab.c"
+#line 1330 "y.tab.c"
     break;
 
-  case 14: /* impressao: MOSTRE operacaoI '.'  */
-#line 110 "matemagica.y"
+  case 15: /* impressao: MOSTRE operacaoI '.'  */
+#line 120 "matemagica.y"
                            {
        char *result = malloc(strlen((yyvsp[-1].str)) + 10);  // Space for operation result
         if (result == NULL){
@@ -1307,11 +1341,11 @@ yyreduce:
         (yyval.str) = result;
         free((yyvsp[-1].str));
     }
-#line 1311 "y.tab.c"
+#line 1345 "y.tab.c"
     break;
 
-  case 15: /* operacao: SOME var COM var '.'  */
-#line 123 "matemagica.y"
+  case 16: /* operacao: SOME var COM var '.'  */
+#line 133 "matemagica.y"
                          {
         char *result;
         
@@ -1350,11 +1384,11 @@ yyreduce:
         free((yyvsp[-3].str));
         free((yyvsp[-1].str));
     }
-#line 1354 "y.tab.c"
+#line 1388 "y.tab.c"
     break;
 
-  case 16: /* operacao: MULTIPLIQUE var POR var '.'  */
-#line 161 "matemagica.y"
+  case 17: /* operacao: MULTIPLIQUE var POR var '.'  */
+#line 171 "matemagica.y"
                                   {
         char *result;
 
@@ -1393,11 +1427,11 @@ yyreduce:
         free((yyvsp[-3].str));
         free((yyvsp[-1].str));
     }
-#line 1397 "y.tab.c"
+#line 1431 "y.tab.c"
     break;
 
-  case 17: /* operacaoI: SOME var COM var  */
-#line 202 "matemagica.y"
+  case 18: /* operacaoI: SOME var COM var  */
+#line 212 "matemagica.y"
                      {
         char *result = malloc(strlen((yyvsp[-2].str)) + strlen((yyvsp[0].str)) + 10);
         if (result == NULL) {
@@ -1409,11 +1443,11 @@ yyreduce:
         free((yyvsp[-2].str));
         free((yyvsp[0].str));
     }
-#line 1413 "y.tab.c"
+#line 1447 "y.tab.c"
     break;
 
-  case 18: /* operacaoI: MULTIPLIQUE var POR var  */
-#line 213 "matemagica.y"
+  case 19: /* operacaoI: MULTIPLIQUE var POR var  */
+#line 223 "matemagica.y"
                               {
         char *result = malloc(strlen((yyvsp[-2].str)) + strlen((yyvsp[0].str)) + 10);
         if (result == NULL) {
@@ -1425,11 +1459,11 @@ yyreduce:
         free((yyvsp[-2].str));
         free((yyvsp[0].str));
     }
-#line 1429 "y.tab.c"
+#line 1463 "y.tab.c"
     break;
 
-  case 19: /* repeticao: REPITA var VEZES ':' cmds FIM  */
-#line 227 "matemagica.y"
+  case 20: /* repeticao: REPITA var VEZES ':' cmds FIM  */
+#line 237 "matemagica.y"
                                   { 
         char *result = malloc(strlen((yyvsp[-4].str)) + strlen((yyvsp[-1].str)) + 40);
         if (result == NULL) {
@@ -1441,11 +1475,11 @@ yyreduce:
         free((yyvsp[-4].str));
         free((yyvsp[-1].str));
     }
-#line 1445 "y.tab.c"
+#line 1479 "y.tab.c"
     break;
 
-  case 20: /* condicional: SE var ENTAO cmds FIM  */
-#line 241 "matemagica.y"
+  case 21: /* condicional: SE var ENTAO cmds FIM  */
+#line 251 "matemagica.y"
                           { 
         char *result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 20);
         if (result == NULL) {
@@ -1457,11 +1491,11 @@ yyreduce:
         free((yyvsp[-3].str));
         free((yyvsp[-1].str));
     }
-#line 1461 "y.tab.c"
+#line 1495 "y.tab.c"
     break;
 
-  case 21: /* condicional: SE var ENTAO cmds SENAO cmds FIM  */
-#line 252 "matemagica.y"
+  case 22: /* condicional: SE var ENTAO cmds SENAO cmds FIM  */
+#line 262 "matemagica.y"
                                        { 
         char *result = malloc(strlen((yyvsp[-5].str)) + strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
         if (result == NULL) {
@@ -1474,11 +1508,81 @@ yyreduce:
         free((yyvsp[-3].str));
         free((yyvsp[-1].str));
     }
-#line 1478 "y.tab.c"
+#line 1512 "y.tab.c"
+    break;
+
+  case 23: /* condicional: SE var MAIOR QUE var ENTAO cmds FIM  */
+#line 274 "matemagica.y"
+                                          { 
+        char *result = malloc(strlen((yyvsp[-6].str)) + strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s > %s then\n%s\nend", (yyvsp[-6].str), (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
+        free((yyvsp[-6].str));
+        free((yyvsp[-3].str));
+        free((yyvsp[-1].str));
+    }
+#line 1529 "y.tab.c"
+    break;
+
+  case 24: /* condicional: SE var MAIOR QUE var ENTAO cmds SENAO cmds FIM  */
+#line 286 "matemagica.y"
+                                                     { 
+        char *result = malloc(strlen((yyvsp[-8].str)) + strlen((yyvsp[-5].str)) + strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s > %s then\n%s\nelse\n%s\nend", (yyvsp[-8].str), (yyvsp[-5].str), (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
+        free((yyvsp[-8].str));
+        free((yyvsp[-5].str));
+        free((yyvsp[-3].str));
+        free((yyvsp[-1].str));
+    }
+#line 1547 "y.tab.c"
+    break;
+
+  case 25: /* condicional: SE var MENOR QUE var ENTAO cmds FIM  */
+#line 299 "matemagica.y"
+                                          { 
+        char *result = malloc(strlen((yyvsp[-6].str)) + strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s < %s then\n%s\nend", (yyvsp[-6].str), (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
+        free((yyvsp[-6].str));
+        free((yyvsp[-3].str));
+        free((yyvsp[-1].str));
+    }
+#line 1564 "y.tab.c"
+    break;
+
+  case 26: /* condicional: SE var MENOR QUE var ENTAO cmds SENAO cmds FIM  */
+#line 311 "matemagica.y"
+                                                     { 
+        char *result = malloc(strlen((yyvsp[-8].str)) + strlen((yyvsp[-5].str)) + strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 30);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s < %s then\n%s\nelse\n%s\nend", (yyvsp[-8].str), (yyvsp[-5].str), (yyvsp[-3].str), (yyvsp[-1].str));
+        (yyval.str) = result;
+        free((yyvsp[-8].str));
+        free((yyvsp[-5].str));
+        free((yyvsp[-3].str));
+        free((yyvsp[-1].str));
+    }
+#line 1582 "y.tab.c"
     break;
 
 
-#line 1482 "y.tab.c"
+#line 1586 "y.tab.c"
 
       default: break;
     }
@@ -1671,7 +1775,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 267 "matemagica.y"
+#line 327 "matemagica.y"
 
 
 void yyerror(const char *s) {

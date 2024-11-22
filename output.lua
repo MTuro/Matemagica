@@ -1,24 +1,11 @@
-a = 1
-b = 2
-c = 3
-for i = 1, 2 do
-if a ~= 0 then
-for i = 1, 2 do
-b = b + c
-if b ~= 0 then
-c = c * 2
+x = 7
+y = 2
+if x < 10 then
+print(x + y)
 else
-c = c + 1
+print(x * y)
 end
 for i = 1, 2 do
-b = b + c
-c = c * a
-print(b)
-print(c)
-end
-end
-else
-print(0)
-end
-a = a + 1
+print(x)
+x = y * 2
 end
