@@ -229,7 +229,7 @@ enum yysymbol_kind_t
   YYSYMBOL_atribuicao = 28,                /* atribuicao  */
   YYSYMBOL_impressao = 29,                 /* impressao  */
   YYSYMBOL_operacao = 30,                  /* operacao  */
-  YYSYMBOL_operacaoI = 31,                 /* operacaoI  */
+  YYSYMBOL_operacao2nd = 31,               /* operacao2nd  */
   YYSYMBOL_repeticao = 32,                 /* repeticao  */
   YYSYMBOL_condicional = 33                /* condicional  */
 };
@@ -641,7 +641,7 @@ static const char *const yytname[] =
   "FACA", "SER", "MOSTRE", "SOME", "COM", "REPITA", "VEZES", "FIM",
   "MULTIPLIQUE", "POR", "SE", "ENTAO", "SENAO", "MAIOR", "MENOR", "QUE",
   "'.'", "':'", "$accept", "programa", "cmds", "cmd", "var", "atribuicao",
-  "impressao", "operacao", "operacaoI", "repeticao", "condicional", YY_NULLPTR
+  "impressao", "operacao", "operacao2nd", "repeticao", "condicional", YY_NULLPTR
 };
 
 static const char *
@@ -1299,9 +1299,9 @@ yyreduce:
 #line 1300 "y.tab.c"
     break;
 
-  case 13: /* atribuicao: FACA var SER operacaoI '.'  */
+  case 13: /* atribuicao: FACA var SER operacao2nd '.'  */
 #line 97 "matemagica.y"
-                                 {
+                                   {
         char *result = malloc(strlen((yyvsp[-3].str)) + strlen((yyvsp[-1].str)) + 10);
         if (result == NULL) {
             yyerror("Memory allocation failed");
@@ -1329,9 +1329,9 @@ yyreduce:
 #line 1330 "y.tab.c"
     break;
 
-  case 15: /* impressao: MOSTRE operacaoI '.'  */
+  case 15: /* impressao: MOSTRE operacao2nd '.'  */
 #line 120 "matemagica.y"
-                           {
+                             {
        char *result = malloc(strlen((yyvsp[-1].str)) + 10);  // Space for operation result
         if (result == NULL){
             yyerror("Memory allocation failed");
@@ -1430,7 +1430,7 @@ yyreduce:
 #line 1431 "y.tab.c"
     break;
 
-  case 18: /* operacaoI: SOME var COM var  */
+  case 18: /* operacao2nd: SOME var COM var  */
 #line 212 "matemagica.y"
                      {
         char *result = malloc(strlen((yyvsp[-2].str)) + strlen((yyvsp[0].str)) + 10);
@@ -1446,7 +1446,7 @@ yyreduce:
 #line 1447 "y.tab.c"
     break;
 
-  case 19: /* operacaoI: MULTIPLIQUE var POR var  */
+  case 19: /* operacao2nd: MULTIPLIQUE var POR var  */
 #line 223 "matemagica.y"
                               {
         char *result = malloc(strlen((yyvsp[-2].str)) + strlen((yyvsp[0].str)) + 10);

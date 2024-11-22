@@ -1,12 +1,1 @@
-- Adicionar:
-
-FACA texto1 SER "Olá" ? 
-
-FACA x SER SOME x COM y ? ok
-
-SE x MAIOR QUE y ENTAO ... ? ok
-
-SE x MENOR QUE y ENTAO ... ? ok
-
-- Achar um outro nome para 'operacaoI' (ta sendo usado para atribuicao
-agora tambem)
+- tudo ok

@@ -21,7 +21,7 @@ extern FILE *outputFile;
 
 %token FACA SER MOSTRE SOME COM REPITA VEZES FIM MULTIPLIQUE POR SE ENTAO SENAO MAIOR MENOR QUE
 
-%type <str> cmds cmd atribuicao impressao operacao repeticao condicional operacaoI var
+%type <str> cmds cmd atribuicao impressao operacao repeticao condicional operacao2nd var
 
 
 %%
@@ -94,7 +94,7 @@ atribuicao:
         $$ = result;
         free($4);       
     }
-    | FACA var SER operacaoI '.' {
+    | FACA var SER operacao2nd '.' {
         char *result = malloc(strlen($2) + strlen($4) + 10);
         if (result == NULL) {
             yyerror("Memory allocation failed");
@@ -117,7 +117,7 @@ impressao:
         $$ = result;
         free($2);
     }
-    | MOSTRE operacaoI '.' {
+    | MOSTRE operacao2nd '.' {
        char *result = malloc(strlen($2) + 10);  // Space for operation result
         if (result == NULL){
             yyerror("Memory allocation failed");
@@ -208,7 +208,7 @@ operacao:
     }
     ;
 
-operacaoI:
+operacao2nd:
     SOME var COM var {
         char *result = malloc(strlen($2) + strlen($4) + 10);
         if (result == NULL) {
