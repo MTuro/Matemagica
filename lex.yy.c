@@ -825,12 +825,12 @@ YY_RULE_SETUP
 case 14:
 YY_RULE_SETUP
 #line 20 "lexer.l"
-{ printf("Processing token: NUM\n"); yylval.num = atoi(yytext); return NUM; }
+{ yylval.num = atoi(yytext); return NUM; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 21 "lexer.l"
-{  printf("Processing token: IDENTIFIER\n"); 
+{   
                         yylval.str = (char*) malloc(strlen(yytext) + 1); // +1 para o caractere nulo
 strcpy(yylval.str, yytext); 
                         return IDENTIFIER; }

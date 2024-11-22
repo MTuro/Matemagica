@@ -97,10 +97,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 12 "matemagica.y"
+#line 14 "matemagica.y"
 
     int num;       /* Para números */
-    char *str;     /* Para strings e comandos */
+    char *str;     /* Para strings e variáveis */
 
 #line 106 "y.tab.h"
 

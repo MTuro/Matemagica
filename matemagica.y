@@ -2,26 +2,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 void yyerror(const char *s);
+int is_number(const char *str);
+int is_identifier(const char *str);
 int yylex(void);
 extern FILE *outputFile;
 %}
 
-/* Define os tipos de valores semânticos */
 %union {
     int num;       /* Para números */
-    char *str;     /* Para strings e comandos */
+    char *str;     /* Para strings e variáveis */
 }
 
-/* Declaração dos tokens com tipos */
 %token <num> NUM
 %token <str> IDENTIFIER
 
 %token FACA SER MOSTRE SOME COM REPITA VEZES FIM MULTIPLIQUE POR SE ENTAO SENAO
 
-/* Declaração dos não-terminais com tipos */
-%type <str> cmds cmd atribuicao impressao operacaoI operacao repeticao condicional
+%type <str> cmds cmd atribuicao impressao operacao repeticao condicional operacaoI var
+
 
 %%
 
@@ -63,48 +64,51 @@ cmd:
     | condicional
     ;
 
-atribuicao:
-    FACA IDENTIFIER SER NUM '.' { 
-        char *result = malloc(strlen($2) + 20);  // Size adjusted for identifier and number
-        if (result == NULL){
+var:
+    NUM { 
+        char *result = malloc(20);
+        if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "%s = %d", $2, $4); 
+        sprintf(result, "%d", $1);
         $$ = result;
     }
-    |   FACA IDENTIFIER SER IDENTIFIER '.' { 
-        char *result = malloc(strlen($2) + strlen($4) + 20);  // Size adjusted for identifier and number
-        if (result == NULL){
+    | IDENTIFIER { 
+        $$ = strdup($1);
+        if ($$ == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "%s = %s", $2, $4); 
+    }
+    ;
+
+atribuicao:
+    FACA var SER var '.' {
+        char *result = malloc(strlen($2) + strlen($4) + 10);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "%s = %s", $2, $4);
         $$ = result;
+        free($4);
     }
     ;
 
 impressao:
-    MOSTRE IDENTIFIER '.' { 
-        char *result = malloc(strlen($2) + 10); // Space for identifier and format
-        if (result == NULL){
+    MOSTRE var '.' {
+        char *result = malloc(strlen($2) + 10);
+        if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "print(%s)", $2);
         $$ = result;
+        free($2);
     }
-    | MOSTRE NUM '.' {
-        char *result = malloc(20);  // Space for formatted number
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "print(%d)", $2);
-        $$ = result;
-    }
-    | MOSTRE operacaoI '.' { 
-        char *result = malloc(strlen($2) + 10);  // Space for operation result
+    | MOSTRE operacaoI '.' {
+       char *result = malloc(strlen($2) + 10);  // Space for operation result
         if (result == NULL){
             yyerror("Memory allocation failed");
             YYABORT;
@@ -115,236 +119,174 @@ impressao:
     }
     ;
 
+operacao:
+    SOME var COM var '.' {
+        char *result;
+        
+        // Caso ambos sejam números
+        if (is_number($2) && is_number($4)) {
+            result = malloc(strlen($2) + strlen($4) + 20);
+            if (result == NULL) {
+                yyerror("Memory allocation failed");
+                YYABORT;
+            }
+            sprintf(result, "var_default = %s + %s", $2, $4);
+        } 
+        // Caso seja um identificador com outro número ou identificador
+        else if (is_identifier($2)) {
+            result = malloc(strlen($2) + strlen($4) + 20);
+            if (result == NULL) {
+                yyerror("Memory allocation failed");
+                YYABORT;
+            }
+            sprintf(result, "%s = %s + %s", $2, $2, $4);
+        } 
+        // Caso contrário (identificador no segundo argumento)
+        else if (is_identifier($4)) {
+            result = malloc(strlen($2) + strlen($4) + 20);
+            if (result == NULL) {
+                yyerror("Memory allocation failed");
+                YYABORT;
+            }
+            sprintf(result, "%s = %s + %s", $4, $4, $2);
+        } else {
+            yyerror("Invalid operation: no identifier to assign the result.");
+            YYABORT;
+        }
+
+        $$ = result;
+        free($2);
+        free($4);
+    }
+    | MULTIPLIQUE var POR var '.' {
+        char *result;
+
+        // Caso ambos sejam números
+        if (is_number($2) && is_number($4)) {
+            result = malloc(strlen($2) + strlen($4) + 20);
+            if (result == NULL) {
+                yyerror("Memory allocation failed");
+                YYABORT;
+            }
+            sprintf(result, "var_default = %s * %s", $2, $4);
+        } 
+        // Caso seja um identificador com outro número ou identificador
+        else if (is_identifier($2)) {
+            result = malloc(strlen($2) + strlen($4) + 20);
+            if (result == NULL) {
+                yyerror("Memory allocation failed");
+                YYABORT;
+            }
+            sprintf(result, "%s = %s * %s", $2, $2, $4);
+        } 
+        // Caso contrário (identificador no segundo argumento)
+        else if (is_identifier($4)) {
+            result = malloc(strlen($2) + strlen($4) + 20);
+            if (result == NULL) {
+                yyerror("Memory allocation failed");
+                YYABORT;
+            }
+            sprintf(result, "%s = %s * %s", $4, $4, $2);
+        } else {
+            yyerror("Invalid operation: no identifier to assign the result.");
+            YYABORT;
+        }
+
+        $$ = result;
+        free($2);
+        free($4);
+    }
+    ;
+
 operacaoI:
-    SOME NUM COM NUM {
-        char *result = malloc(sizeof(int) *2 + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%d + %d", $2, $4);
-        $$ = result;
-    }
-    | SOME NUM COM IDENTIFIER {
-        char *result = malloc(strlen($4) *2 + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%d + %s", $2, $4);
-        $$ = result;
-    }
-    | SOME IDENTIFIER COM IDENTIFIER {
-        char *result = malloc(strlen($2) *2 + strlen($4) + 10);
+    SOME var COM var {
+        char *result = malloc(strlen($2) + strlen($4) + 10);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "%s + %s", $2, $4);
         $$ = result;
+        free($2);
+        free($4);
     }
-    | SOME IDENTIFIER COM NUM {
-        char *result = malloc(strlen($2) *2 + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s + %d", $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE NUM POR NUM {
-        char *result = malloc(sizeof(int) * 2 + 20);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%d * %d", $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE NUM POR IDENTIFIER { 
-        char *result = malloc(sizeof(int) * 2 + 20);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%d * %s", $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE IDENTIFIER POR IDENTIFIER { 
-        char *result = malloc(strlen($2) * 2 + 20);
+    | MULTIPLIQUE var POR var {
+        char *result = malloc(strlen($2) + strlen($4) + 10);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "%s * %s", $2, $4);
         $$ = result;
-    }
-    | MULTIPLIQUE IDENTIFIER POR NUM { 
-        char *result = malloc(strlen($2) * 2 + 20);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s * %d", $2, $4);
-        $$ = result;
-    }
-
-
-operacao:
-    SOME NUM COM NUM '.' { 
-        char *result = malloc(sizeof(int) * 2 + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "var_default = %d + %d", $2, $4);
-        $$ = result;
-    }
-    | SOME NUM COM IDENTIFIER '.' { 
-        char *result = malloc(strlen($4) * 2 + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s = %d + %s", $4, $2, $4);
-        $$ = result;
-    }
-    | SOME IDENTIFIER COM IDENTIFIER '.' { 
-        char *result = malloc(strlen($2) * 2 + strlen($4) + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s = %s + %s", $2, $2, $4);
-        $$ = result;
-    }
-    | SOME IDENTIFIER COM NUM '.' { 
-        char *result = malloc(strlen($2) * 2 + 20);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s = %s + %d", $2, $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE NUM POR NUM '.' { 
-        char *result = malloc(sizeof(int) * 2 + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "var_default = %d * %d", $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE IDENTIFIER POR IDENTIFIER '.' { 
-        char *result = malloc(strlen($2) * 2 + strlen($4) + 10);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s = %s * %s", $2, $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE IDENTIFIER POR NUM '.' { 
-        char *result = malloc(strlen($2) * 2 + 20);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s = %s * %d", $2, $2, $4);
-        $$ = result;
-    }
-    | MULTIPLIQUE NUM POR IDENTIFIER '.' { 
-        char *result = malloc(strlen($4) * 2 + 20);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "%s = %d * %s", $4, $2, $4);
-        $$ = result;
+        free($2);
+        free($4);
     }
     ;
 
 repeticao:
-    REPITA NUM VEZES ':' cmds FIM { 
-        if ($5 != NULL) {
-            char *result = malloc(strlen($5) + 40);
-            if (result == NULL){
-                yyerror("Memory allocation failed");
-                YYABORT;
-            }
-            sprintf(result, "for i = 1, %d do\n%s\nend", $2, $5);
-            $$ = result;
-            free($5);
-        } else {
-            yyerror("Invalid repetition command.");
-            YYABORT;
-        }
-    }
-    | REPITA IDENTIFIER VEZES ':' cmds FIM { 
-        if ($5 != NULL) {
-            char *result = malloc(strlen($5) + 40);
-            if (result == NULL){
-                yyerror("Memory allocation failed");
-                YYABORT;
-            }
-            sprintf(result, "for i = 1, %s do\n%s\nend", $2, $5);
-            $$ = result;
-            free($5);
-        } else {
-            yyerror("Invalid repetition command.");
-            YYABORT;
-        }
-    }
-    ;
-
-condicional:
-    SE IDENTIFIER ENTAO cmds FIM { 
-        char *result = malloc(strlen($2) + strlen($4) + 20);
-        if (result == NULL){
-           yyerror("Memory allocation failed");
-           YYABORT;
-        }
-        sprintf(result, "if %s then\n%s\nend\n", $2, $4);
-        $$ = result;
-        free($4);
-    }
-    | SE NUM ENTAO cmds FIM {
-        char *result = malloc(strlen($4) + 30);
+    REPITA var VEZES ':' cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($5) + 40);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
-        sprintf(result, "if %d ~= 0 then\n%s\nend", $2, $4);
+        sprintf(result, "for i = 1, %s do\n%s\nend", $2, $5);
         $$ = result;
+        free($2);
+        free($5);
+    }
+    ;
+
+condicional:
+    SE var ENTAO cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($4) + 20);
+        if (result == NULL) {
+            yyerror("Memory allocation failed");
+            YYABORT;
+        }
+        sprintf(result, "if %s ~= 0 then\n%s\nend", $2, $4);
+        $$ = result;
+        free($2);
         free($4);
     }
-    | SE IDENTIFIER ENTAO cmds SENAO cmds FIM { 
-        char *result = malloc(strlen($4) + strlen($6) + 30);
+    | SE var ENTAO cmds SENAO cmds FIM { 
+        char *result = malloc(strlen($2) + strlen($4) + strlen($6) + 30);
         if (result == NULL) {
             yyerror("Memory allocation failed");
             YYABORT;
         }
         sprintf(result, "if %s ~= 0 then\n%s\nelse\n%s\nend", $2, $4, $6);
         $$ = result;
+        free($2);
         free($4);
         free($6);
-    } 
-    | SE NUM ENTAO cmds SENAO cmds FIM {
-        char *result = malloc(strlen($4) + strlen($6) + 30);
-        if (result == NULL) {
-            yyerror("Memory allocation failed");
-            YYABORT;
-        }
-        sprintf(result, "if %d ~= 0 then\n%s\nelse\n%s\nend", $2, $4, $6);
-        $$ = result;
-        free($4);
-        free($6);
-    } 
+    }
     ;
+
 
 %%
 
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
+}
+
+int is_number(const char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (!isdigit(str[i])) {
+            return 0;  // Não é número
+        }
+    }
+    return 1;  // É número
+}
+
+int is_identifier(const char *str) {
+    if (isalpha(str[0]) || str[0] == '_') {  // Deve começar com letra ou underscore
+        for (int i = 1; str[i] != '\0'; i++) {
+            if (!isalnum(str[i]) && str[i] != '_') {
+                return 0;  // Caracteres inválidos
+            }
+        }
+        return 1;  // É identificador
+    }
+    return 0;  // Não é identificador
 }

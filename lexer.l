@@ -17,8 +17,8 @@
 "SE"             { return SE; }
 "ENTAO"          { return ENTAO; }
 "SENAO"          { return SENAO; }
-[0-9]+           { printf("Processing token: NUM\n"); yylval.num = atoi(yytext); return NUM; }
-[a-zA-Z][a-zA-Z0-9]* {  printf("Processing token: IDENTIFIER\n"); 
+[0-9]+           { yylval.num = atoi(yytext); return NUM; }
+[a-zA-Z][a-zA-Z0-9]* {   
                         yylval.str = (char*) malloc(strlen(yytext) + 1); // +1 para o caractere nulo
 strcpy(yylval.str, yytext); 
                         return IDENTIFIER; }
